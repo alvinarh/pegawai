@@ -1,0 +1,5 @@
+.image_resize{
+    height: 50px;
+    object-fit: cover;
+    object-position: center center;
+  }

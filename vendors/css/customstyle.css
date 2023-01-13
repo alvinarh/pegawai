@@ -1,0 +1,67 @@
+/* font-family */
+@font-face{
+    font-family: 'Poppins-Regular';
+    src: url('../fonts/font-family/poppins/Poppins-Regular.ttf');
+}
+*{
+    font-family: 'Poppins-Regular';
+}
+input{
+    font-family: 'Poppins-Regular';
+}
+
+/* navbar */
+.navbar-menu-wrapper .navbar-nav .nav-item .dropdown-menu a{
+    font-size: 0.95rem;
+}
+.navbar-menu-wrapper .navbar-nav .nav-item .dropdown-menu a:hover{
+    color:rgb(53, 51, 51);
+}
+/* sidebar */
+.container-fluid .sidebar{
+    box-shadow: inset -7px 0px 6px -7px rgb(0 0 0 / 20%);
+}
+/* content */
+.container-scroller .container-fluid .main-panel .content-wrapper{
+    font-family: 'Poppins-Regular';
+    background-color: #F6F8FD;
+}
+.container-scroller .container-fluid .main-panel .content-wrapper .page-header .page-title{
+    font-family: 'Poppins-Regular';
+    font-weight: 800;
+}
+.container-scroller .container-fluid .main-panel .content-wrapper .card .card-body .table-responsive .table{
+    font-family: 'Poppins-Regular';
+}
+.main-panel .content-wrapper .row .col-12 .card .card-body h5{
+    font-family: 'Poppins-Regular';
+    font-weight: 600;
+}
+.main-panel .content-wrapper .row .col-12 .card .card-body .form-row h4{
+    font-family: 'Poppins-Regular';
+    font-weight: 600;
+}
+.main-panel .content-wrapper .row .col-12 .card .table tr td h3{
+    font-family: 'Poppins-Regular';
+    font-weight: 500;
+    font-size: 1rem;
+}
+.main-panel .content-wrapper .row .card .card-body .row .profile-img{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+}
+.between{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.center-item{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
