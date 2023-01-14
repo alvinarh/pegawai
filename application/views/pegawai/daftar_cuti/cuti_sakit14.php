@@ -19,6 +19,7 @@
 								<th>Mulai</th>
 								<th>Berakhir</th>
 								<th>Sisa Cuti</th>
+								<th>Status</th>
 								<th>Surat Dokter</th>
 								<th>Verifikasi</th>
 								<th>Cetak Laporan</th>
@@ -45,6 +46,16 @@
 										$sisaCuti = date_diff(date_create($tanggalSekarang), date_create($akhirCuti));
 										echo $sisaCuti->format('%a hari');
 										?>
+									</td>
+
+
+									<?php
+									if ($row->status == 1) {
+										echo '<td class= "text-success"> Selesai</td>';
+									} else {
+										echo '<td  class = "text-warning"> Belum Selesai</td>';
+									}
+									?>
 									</td>
 									<td> <a class="badge badge-primary" href="<?php echo base_url('assets/data/')  . $row->surat_dokter14; ?>">Lihat Surat</a></td>
 									<?php

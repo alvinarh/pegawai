@@ -18,11 +18,32 @@ class PermohonanCuti extends CI_Controller
 		$data['select'] = $this->M_Permohonan->selectIdCuti();
 		$data['ket'] = $this->M_Permohonan->getAllKeterangan();
 
+
 		if ($this->form_validation->run() == FALSE) {
 			$data['title']  = 'Permohonan Cuti Sakit <= 14 Hari';
 			$data['session'] = $this->session->userdata('nama');
 			// get data nama user (untuk tampil di sidebar dan navbar)
 			$data['user']   = $this->db->query('select * from user where nama = "' . $_SESSION['nama'] . '"')->row();
+			$data['validasi_cuti'] = $this->M_Permohonan->getCutiSakit($data['user']->kode_pegawai, 'Cuti Sakit > 14');
+			$data['cek_cuti'] = $this->M_Permohonan->cekCutiSakitMenunggu($data['user']->kode_pegawai, 'Cuti Sakit > 14');
+
+			// Cek apakah ada cuti yang telah akan berakhir
+			// Jika ada ubah status nya jadi selesai
+			if (isset($data['validasi_cuti']) != NULL) {
+				$status = array(
+					'status' => 1
+				);
+
+				$data['user']   = $this->db->query('select * from permohonan_cuti where nama = "' . $_SESSION['nama'] . '"')->row();
+				$data['validasi_cuti2'] = $this->M_Permohonan->getCutiSakit($data['user']->kode_pegawai, 'Cuti Sakit > 14');
+				$this->M_Permohonan->updateStatusCuti($data['user']->id_cuti, 'Cuti Sakit > 14', $status);
+			}
+
+			// Cek apakah ada pengajuan cuti yang menunggu
+			// verifikasi
+			if (isset($data['cek_cuti']) != NULL) {
+				$data['cek_cuti2'] = $this->M_Permohonan->cekCutiSakitMenunggu($data['user']->kode_pegawai, 'Cuti Sakit > 14');
+			}
 			$this->load->view('theme_pegawai/header', $data);
 			$this->load->view('pegawai/permohonan_cuti/cuti_sakit', $data);
 			$this->load->view('theme_pegawai/footer', $data);
@@ -63,7 +84,7 @@ class PermohonanCuti extends CI_Controller
 				// // Set message
 				$this->session->set_flashdata('message', '<div class="alert alert-success" style="color:green;" role="success">Data berhasil</div>');
 				redirect('pegawai/PermohonanCuti/cutiSakit', $data);
-			} else{
+			} else {
 				$this->session->set_flashdata('msg', '<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 				  <div class="modal-content">
@@ -86,6 +107,8 @@ class PermohonanCuti extends CI_Controller
 			}
 		}
 	}
+
+
 
 	public function cutiSakit14()
 	{
@@ -139,7 +162,7 @@ class PermohonanCuti extends CI_Controller
 				// // Set message
 				$this->session->set_flashdata('message', '<div class="alert alert-success" style="color:green;" role="success">Data berhasil</div>');
 				redirect('pegawai/PermohonanCuti/cutiSakit14', $data);
-			} else{
+			} else {
 				$this->session->set_flashdata('msg', '<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 				  <div class="modal-content">
@@ -214,7 +237,7 @@ class PermohonanCuti extends CI_Controller
 				// // Set message
 				$this->session->set_flashdata('message', '<div class="alert alert-success" style="color:green;" role="success">Data berhasil</div>');
 				redirect('pegawai/PermohonanCuti/cutiMelahirkan', $data);
-			} else{
+			} else {
 				$this->session->set_flashdata('msg', '<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 				  <div class="modal-content">
@@ -293,7 +316,7 @@ class PermohonanCuti extends CI_Controller
 				// // Set message
 				$this->session->set_flashdata('message', '<div class="alert alert-success" style="color:green;" role="success">Data berhasil</div>');
 				redirect('pegawai/PermohonanCuti/cutiAlasanPenting', $data);
-			} else{
+			} else {
 				$this->session->set_flashdata('msg', '<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 				  <div class="modal-content">
@@ -497,4 +520,3 @@ class PermohonanCuti extends CI_Controller
 	// 	}
 	// }
 }
-
