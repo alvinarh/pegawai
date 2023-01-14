@@ -4,6 +4,9 @@
 			<div class="card-body">
 				<div class="row mb-3">
 					<div class="col">
+						<?php if ($this->session->flashdata('message')) {
+							echo '<p class="success mt-2 mb-2">' . $this->session->flashdata('message') . '</p>';
+						} ?>
 						<h4 class="card-title" style="color: #fff;">Data Cuti</h4>
 					</div>
 				</div>

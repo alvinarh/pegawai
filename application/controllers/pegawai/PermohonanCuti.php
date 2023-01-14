@@ -24,8 +24,8 @@ class PermohonanCuti extends CI_Controller
 			$data['session'] = $this->session->userdata('nama');
 			// get data nama user (untuk tampil di sidebar dan navbar)
 			$data['user']   = $this->db->query('select * from user where nama = "' . $_SESSION['nama'] . '"')->row();
-			$data['validasi_cuti'] = $this->M_Permohonan->getCutiSakit($data['user']->kode_pegawai, 'Cuti Sakit > 14');
-			$data['cek_cuti'] = $this->M_Permohonan->cekCutiSakitMenunggu($data['user']->kode_pegawai, 'Cuti Sakit > 14');
+			$data['validasi_cuti'] = $this->M_Permohonan->getCutiSakit($data['user']->kode_pegawai, 'Cuti Sakit < 14');
+			$data['cek_cuti'] = $this->M_Permohonan->cekCutiSakitMenunggu($data['user']->kode_pegawai, 'Cuti Sakit < 14');
 
 			// Cek apakah ada cuti yang telah akan berakhir
 			// Jika ada ubah status nya jadi selesai
@@ -35,14 +35,14 @@ class PermohonanCuti extends CI_Controller
 				);
 
 				$data['user']   = $this->db->query('select * from permohonan_cuti where nama = "' . $_SESSION['nama'] . '"')->row();
-				$data['validasi_cuti2'] = $this->M_Permohonan->getCutiSakit($data['user']->kode_pegawai, 'Cuti Sakit > 14');
-				$this->M_Permohonan->updateStatusCuti($data['user']->id_cuti, 'Cuti Sakit > 14', $status);
+				$data['validasi_cuti2'] = $this->M_Permohonan->getCutiSakit($data['user']->kode_pegawai, 'Cuti Sakit < 14');
+				$this->M_Permohonan->updateStatusCuti($data['user']->id_cuti, 'Cuti Sakit < 14', $status);
 			}
 
 			// Cek apakah ada pengajuan cuti yang menunggu
 			// verifikasi
 			if (isset($data['cek_cuti']) != NULL) {
-				$data['cek_cuti2'] = $this->M_Permohonan->cekCutiSakitMenunggu($data['user']->kode_pegawai, 'Cuti Sakit > 14');
+				$data['cek_cuti2'] = $this->M_Permohonan->cekCutiSakitMenunggu($data['user']->kode_pegawai, 'Cuti Sakit < 14');
 			}
 			$this->load->view('theme_pegawai/header', $data);
 			$this->load->view('pegawai/permohonan_cuti/cuti_sakit', $data);
@@ -122,6 +122,27 @@ class PermohonanCuti extends CI_Controller
 			$data['session'] = $this->session->userdata('nama');
 			// get data nama user (untuk tampil di sidebar dan navbar)
 			$data['user']   = $this->db->query('select * from user where nama = "' . $_SESSION['nama'] . '"')->row();
+
+			$data['validasi_cuti'] = $this->M_Permohonan->getCutiSakit($data['user']->kode_pegawai, 'Cuti Sakit > 14');
+			$data['cek_cuti'] = $this->M_Permohonan->cekCutiSakitMenunggu($data['user']->kode_pegawai, 'Cuti Sakit > 14');
+
+			// Cek apakah ada cuti yang telah akan berakhir
+			// Jika ada ubah status nya jadi selesai
+			if (isset($data['validasi_cuti']) != NULL) {
+				$status = array(
+					'status' => 1
+				);
+
+				$data['user']   = $this->db->query('select * from permohonan_cuti where nama = "' . $_SESSION['nama'] . '"')->row();
+				$data['validasi_cuti2'] = $this->M_Permohonan->getCutiSakit($data['user']->kode_pegawai, 'Cuti Sakit > 14');
+				$this->M_Permohonan->updateStatusCuti($data['user']->id_cuti, 'Cuti Sakit > 14', $status);
+			}
+
+			// Cek apakah ada pengajuan cuti yang menunggu
+			// verifikasi
+			if (isset($data['cek_cuti']) != NULL) {
+				$data['cek_cuti2'] = $this->M_Permohonan->cekCutiSakitMenunggu($data['user']->kode_pegawai, 'Cuti Sakit > 14');
+			}
 			$this->load->view('theme_pegawai/header', $data);
 			$this->load->view('pegawai/permohonan_cuti/cuti_sakit14', $data);
 			$this->load->view('theme_pegawai/footer', $data);
@@ -160,8 +181,8 @@ class PermohonanCuti extends CI_Controller
 				$this->db->insert('permohonan_cuti', $data);
 
 				// // Set message
-				$this->session->set_flashdata('message', '<div class="alert alert-success" style="color:green;" role="success">Data berhasil</div>');
-				redirect('pegawai/PermohonanCuti/cutiSakit14', $data);
+				$this->session->set_flashdata('message', '<div class="alert alert-success" style="color:green;" role="success">Pengajuan Permohonan Cuti Berhasil</div>');
+				redirect('pegawai/Cuti/cutiSakit14', $data);
 			} else {
 				$this->session->set_flashdata('msg', '<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog">

@@ -32,18 +32,6 @@ class M_Permohonan extends CI_Model
 		return $query->row_array();
 	}
 
-	// public function getCutiSakit2($kode_pegawai, $ket_cuti)
-	// {
-	// 	$tanggalSekarang = date('Y-m-d');
-	// 	$this->db->select('*');
-	// 	$this->db->where('kode_pegawai', $kode_pegawai);
-	// 	$this->db->where('keterangan', $ket_cuti);
-	// 	$this->db->where('status', 1);
-	// 	$this->db->where('verifikasi', 1);
-	// 	$this->db->from('permohonan_cuti');
-	// 	$query = $this->db->get();
-	// 	return $query->row_array();
-	// }
 
 	public function cekCutiSakitMenunggu($kode_pegawai, $ket_cuti)
 	{
