@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 12 Jan 2023 pada 10.24
--- Versi server: 10.4.22-MariaDB
--- Versi PHP: 8.0.13
+-- Generation Time: Jan 16, 2023 at 05:43 AM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 8.0.13
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `admin`
+-- Table structure for table `admin`
 --
 
 CREATE TABLE `admin` (
@@ -36,7 +36,7 @@ CREATE TABLE `admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `admin`
+-- Dumping data for table `admin`
 --
 
 INSERT INTO `admin` (`id_admin`, `email`, `nama`, `password`, `role`) VALUES
@@ -45,7 +45,7 @@ INSERT INTO `admin` (`id_admin`, `email`, `nama`, `password`, `role`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `ket_cuti`
+-- Table structure for table `ket_cuti`
 --
 
 CREATE TABLE `ket_cuti` (
@@ -54,7 +54,7 @@ CREATE TABLE `ket_cuti` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `ket_cuti`
+-- Dumping data for table `ket_cuti`
 --
 
 INSERT INTO `ket_cuti` (`id`, `keterangan`) VALUES
@@ -66,7 +66,7 @@ INSERT INTO `ket_cuti` (`id`, `keterangan`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `permohonan_cuti`
+-- Table structure for table `permohonan_cuti`
 --
 
 CREATE TABLE `permohonan_cuti` (
@@ -83,22 +83,25 @@ CREATE TABLE `permohonan_cuti` (
   `surat_alasanpenting` varchar(255) NOT NULL,
   `keterangan` varchar(100) NOT NULL,
   `verifikasi` int(10) NOT NULL,
-  `perihal` text NOT NULL
+  `perihal` text NOT NULL,
+  `status` int(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `permohonan_cuti`
+-- Dumping data for table `permohonan_cuti`
 --
 
-INSERT INTO `permohonan_cuti` (`id_cuti`, `kode_pegawai`, `nik`, `nama`, `tanggal_pengajuan`, `mulai_cuti`, `akhir_cuti`, `surat_dokter`, `surat_dokter14`, `surat_melahirkan`, `surat_alasanpenting`, `keterangan`, `verifikasi`, `perihal`) VALUES
-(68, 'PGW-2023-00018', '3203011309980001', 'Bintari Setiawati', '2023-01-11', '2023-01-12', '2023-01-13', 'surat-dokterPGW-2023-00019-11-01-2023.pdf', '', '', '', 'Cuti Sakit < 14', 1, 'Sakit Flu'),
-(69, 'PGW-2023-00019', '3325050716002', 'Nurul Arlin ', '2023-01-11', '2023-02-20', '2023-01-12', '', '', 'surat-melahirkanPGW-2023-00020-11-01-2023.pdf', '', 'Cuti Melahirkan', 2, ''),
-(70, 'PGW-2023-00019', '3325050716002', 'Nurul Arlin ', '2023-01-11', '2023-01-12', '2023-01-13', 'surat-dokterPGW-2023-00020-11-01-2023.pdf', '', '', '', 'Cuti Sakit < 14', 3, 'Sakit Flu');
+INSERT INTO `permohonan_cuti` (`id_cuti`, `kode_pegawai`, `nik`, `nama`, `tanggal_pengajuan`, `mulai_cuti`, `akhir_cuti`, `surat_dokter`, `surat_dokter14`, `surat_melahirkan`, `surat_alasanpenting`, `keterangan`, `verifikasi`, `perihal`, `status`) VALUES
+(68, 'PGW-2023-00018', '3203011309980001', 'Bintari Setiawati', '2023-01-11', '2023-01-12', '2023-01-13', 'surat-dokterPGW-2023-00019-11-01-2023.pdf', '', '', '', 'Cuti Sakit < 14', 1, 'Sakit Flu', 0),
+(69, 'PGW-2023-00019', '3325050716002', 'Nurul Arlin ', '2023-01-11', '2023-02-20', '2023-01-12', '', '', 'surat-melahirkanPGW-2023-00020-11-01-2023.pdf', '', 'Cuti Melahirkan', 2, '', 0),
+(70, 'PGW-2023-00019', '3325050716002', 'Nurul Arlin ', '2023-01-11', '2023-01-12', '2023-01-13', 'surat-dokterPGW-2023-00020-11-01-2023.pdf', '', '', '', 'Cuti Sakit < 14', 3, 'Sakit Flu', 0),
+(80, 'PGW-2023-00002', '3325080504910003', 'Cahya Ayu Ningrum', '2023-01-14', '2023-01-14', '2023-01-17', 'surat-dokter14PGW-2023-00020-14-01-20233.pdf', '', '', '', 'Cuti Sakit < 14', 1, 'sa', 1),
+(81, 'PGW-2023-00002', '3325080504910003', 'Cahya Ayu Ningrum', '2023-01-14', '2023-01-14', '2023-01-17', 'surat-dokter14PGW-2023-00020-14-01-20234.pdf', '', '', '', 'Cuti Sakit > 14', 3, 'Flu', 0);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pimpinan`
+-- Table structure for table `pimpinan`
 --
 
 CREATE TABLE `pimpinan` (
@@ -112,7 +115,7 @@ CREATE TABLE `pimpinan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `pimpinan`
+-- Dumping data for table `pimpinan`
 --
 
 INSERT INTO `pimpinan` (`kode_pimpinan`, `nama`, `jabatan`, `email`, `password`, `no_telp`, `role`) VALUES
@@ -121,7 +124,7 @@ INSERT INTO `pimpinan` (`kode_pimpinan`, `nama`, `jabatan`, `email`, `password`,
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `user`
+-- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
@@ -139,7 +142,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `user`
+-- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`kode_pegawai`, `nik`, `nama`, `jabatan`, `jenis_kel`, `no_telp`, `alamat`, `email`, `password`, `status`, `role`) VALUES
@@ -165,50 +168,50 @@ INSERT INTO `user` (`kode_pegawai`, `nik`, `nama`, `jabatan`, `jenis_kel`, `no_t
 --
 
 --
--- Indeks untuk tabel `admin`
+-- Indexes for table `admin`
 --
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`id_admin`);
 
 --
--- Indeks untuk tabel `ket_cuti`
+-- Indexes for table `ket_cuti`
 --
 ALTER TABLE `ket_cuti`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `permohonan_cuti`
+-- Indexes for table `permohonan_cuti`
 --
 ALTER TABLE `permohonan_cuti`
   ADD PRIMARY KEY (`id_cuti`);
 
 --
--- Indeks untuk tabel `pimpinan`
+-- Indexes for table `pimpinan`
 --
 ALTER TABLE `pimpinan`
   ADD PRIMARY KEY (`kode_pimpinan`);
 
 --
--- Indeks untuk tabel `user`
+-- Indexes for table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`kode_pegawai`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `ket_cuti`
+-- AUTO_INCREMENT for table `ket_cuti`
 --
 ALTER TABLE `ket_cuti`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT untuk tabel `permohonan_cuti`
+-- AUTO_INCREMENT for table `permohonan_cuti`
 --
 ALTER TABLE `permohonan_cuti`
-  MODIFY `id_cuti` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `id_cuti` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

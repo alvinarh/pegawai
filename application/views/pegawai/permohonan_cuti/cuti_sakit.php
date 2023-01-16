@@ -71,8 +71,6 @@
 <h1 id="countdown" class="text-center"></h1>
 
 
-
-
 </div>
 </div>
 </div>

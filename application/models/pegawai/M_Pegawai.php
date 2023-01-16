@@ -26,6 +26,8 @@ class M_Pegawai extends CI_Model {
         return $this->db->get_where('user', ['kode_pegawai' => $id])->row_array();
     }
 
+	
+
     public function editProfil()
     {
         $data = [
