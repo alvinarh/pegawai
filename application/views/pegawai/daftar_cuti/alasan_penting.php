@@ -18,7 +18,7 @@
 								<th>Tanggal Diajukan</th>
 								<th>Mulai</th>
 								<th>Berakhir</th>
-								<th>Sisa Cuti</th>
+								<th id="sisaCuti">Sisa Cuti</th>
 								<th>Surat Dokter</th>
 								<th>Verifikasi</th>
 								<th>Cetak Laporan</th>
@@ -38,12 +38,17 @@
 									<td style="color: #fff;"><?php echo $row->tanggal_pengajuan ?></td>
 									<td style="color: #fff;"><?php echo $row->mulai_cuti ?></td>
 									<td style="color: #fff;"><?php echo $row->akhir_cuti ?></td>
-									<td style="color: #fff;">
+									<td style="color: #fff;" id="sisaCuti">
 										<?php
 										$tanggalSekarang = date('Y-m-d');
 										$akhirCuti = $row->akhir_cuti;
 										$sisaCuti = date_diff(date_create($tanggalSekarang), date_create($akhirCuti));
-										echo $sisaCuti->format('%a hari');
+										if ($row->verifikasi == 1) {
+											echo $sisaCuti->format('%a hari');
+										} else {
+											echo '-';
+										}
+
 										?>
 									</td>
 									<td> <a class="badge badge-primary" href="<?php echo base_url('assets/data/')  . $row->surat_alasanpenting; ?>">Lihat Surat</a></td>
