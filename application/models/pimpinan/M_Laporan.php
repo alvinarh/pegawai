@@ -11,7 +11,7 @@ class M_Laporan extends CI_Model
 		return $this->db->query($query)->result();
 	}
 
-  public function editCuti($id)
+	public function editCuti($id)
 	{
 		$data['id'] = $id;
 		$this->db->set('verifikasi', $this->input->post('verifikasi'));
@@ -22,7 +22,7 @@ class M_Laporan extends CI_Model
 		redirect($_SERVER['HTTP_REFERER']);
 	}
 
-  public function dataCutiSakit14()
+	public function dataCutiSakit14()
 	{
 		$query = "SELECT u.jabatan,p.* from permohonan_cuti p , user u where  u.kode_pegawai = p.kode_pegawai and p.keterangan = 'Cuti Sakit > 14' and p.verifikasi = '1'";
 		return $this->db->query($query)->result();
@@ -60,73 +60,96 @@ class M_Laporan extends CI_Model
 	// }
 
 	public function cetakCutiSakit($kode_pegawai)
-  {
-    $this->db->select('user.*,permohonan_cuti.*');
-    $this->db->from('user');
-    $this->db->join('permohonan_cuti', 'permohonan_cuti.kode_pegawai=user.kode_pegawai');
-    $this->db->where('user.kode_pegawai', $kode_pegawai);
-    $query = $this->db->get();
-    return $query->row_array();
-  }
+	{
+		$this->db->select('user.*,permohonan_cuti.*');
+		$this->db->from('user');
+		$this->db->join('permohonan_cuti', 'permohonan_cuti.kode_pegawai=user.kode_pegawai');
+		$this->db->where('user.kode_pegawai', $kode_pegawai);
+		$query = $this->db->get();
+		return $query->row_array();
+	}
 
-  public function cetakCutiSakit14($kode_pegawai)
-  {
-    $this->db->select('user.*,permohonan_cuti.*');
-    $this->db->from('user');
-    $this->db->join('permohonan_cuti', 'permohonan_cuti.kode_pegawai=user.kode_pegawai');
-    $this->db->where('user.kode_pegawai', $kode_pegawai);
-    $query = $this->db->get();
-    return $query->row_array();
-  }
+	public function cetakCutiSakit14($kode_pegawai)
+	{
+		$this->db->select('user.*,permohonan_cuti.*');
+		$this->db->from('user');
+		$this->db->join('permohonan_cuti', 'permohonan_cuti.kode_pegawai=user.kode_pegawai');
+		$this->db->where('user.kode_pegawai', $kode_pegawai);
+		$query = $this->db->get();
+		return $query->row_array();
+	}
 
 
-  public function cetakCutiMelahirkan($kode_pegawai)
-  {
-    $this->db->select('user.*,permohonan_cuti.*');
-    $this->db->from('user');
-    $this->db->join('permohonan_cuti', 'permohonan_cuti.kode_pegawai=user.kode_pegawai');
-    $this->db->where('user.kode_pegawai', $kode_pegawai);
-    $query = $this->db->get();
-    return $query->row_array();
-  }
+	public function cetakCutiMelahirkan($kode_pegawai)
+	{
+		$this->db->select('user.*,permohonan_cuti.*');
+		$this->db->from('user');
+		$this->db->join('permohonan_cuti', 'permohonan_cuti.kode_pegawai=user.kode_pegawai');
+		$this->db->where('user.kode_pegawai', $kode_pegawai);
+		$query = $this->db->get();
+		return $query->row_array();
+	}
 
-  public function cetakCutiAlasanPenting($kode_pegawai)
-  {
-    $this->db->select('user.*,permohonan_cuti.*');
-    $this->db->from('user');
-    $this->db->join('permohonan_cuti', 'permohonan_cuti.kode_pegawai=user.kode_pegawai');
-    $this->db->where('user.kode_pegawai', $kode_pegawai);
-    $query = $this->db->get();
-    return $query->row_array();
-  }
+	public function update_cuti($id, $data)
+	{
+		$this->db->where('id_cuti', $id);
+		$this->db->update('permohonan_cuti', $data);
+	}
 
-  // public function cetakCutiBesar($kode_pegawai)
-  // {
-  //   $this->db->select('user.*,permohonan_cuti.*');
-  //   $this->db->from('user');
-  //   $this->db->join('permohonan_cuti', 'permohonan_cuti.kode_pegawai=user.kode_pegawai');
-  //   $this->db->where('user.kode_pegawai', $kode_pegawai);
-  //   $query = $this->db->get();
-  //   return $query->row_array();
-  // }
+	public function get_user_by_id($id)
+	{
+		$this->db->select('*');
+		$this->db->from('user');
+		$this->db->where('kode_pegawai', $id);
+		return $this->db->get()->row_array();
+	}
 
-  // public function cetakCutiTahunan($kode_pegawai)
-  // {
-  //   $this->db->select('user.*,permohonan_cuti.*');
-  //   $this->db->from('user');
-  //   $this->db->join('permohonan_cuti', 'permohonan_cuti.kode_pegawai=user.kode_pegawai');
-  //   $this->db->where('user.kode_pegawai', $kode_pegawai);
-  //   $query = $this->db->get();
-  //   return $query->row_array();
-  // }
+	public function get_detail_cuti_by_id($id)
+	{
+		$this->db->select('*');
+		$this->db->from('permohonan_cuti');
+		$this->db->where('id_cuti', $id);
+		return $this->db->get()->row_array();
+	}
 
-  // public function cetakCutiDiluarTN($kode_pegawai)
-  // {
-  //   $this->db->select('user.*,permohonan_cuti.*');
-  //   $this->db->from('user');
-  //   $this->db->join('permohonan_cuti', 'permohonan_cuti.kode_pegawai=user.kode_pegawai');
-  //   $this->db->where('user.kode_pegawai', $kode_pegawai);
-  //   $query = $this->db->get();
-  //   return $query->row_array();
-  // }
+
+	public function cetakCutiAlasanPenting($kode_pegawai)
+	{
+		$this->db->select('user.*,permohonan_cuti.*');
+		$this->db->from('user');
+		$this->db->join('permohonan_cuti', 'permohonan_cuti.kode_pegawai=user.kode_pegawai');
+		$this->db->where('user.kode_pegawai', $kode_pegawai);
+		$query = $this->db->get();
+		return $query->row_array();
+	}
+
+	// public function cetakCutiBesar($kode_pegawai)
+	// {
+	//   $this->db->select('user.*,permohonan_cuti.*');
+	//   $this->db->from('user');
+	//   $this->db->join('permohonan_cuti', 'permohonan_cuti.kode_pegawai=user.kode_pegawai');
+	//   $this->db->where('user.kode_pegawai', $kode_pegawai);
+	//   $query = $this->db->get();
+	//   return $query->row_array();
+	// }
+
+	// public function cetakCutiTahunan($kode_pegawai)
+	// {
+	//   $this->db->select('user.*,permohonan_cuti.*');
+	//   $this->db->from('user');
+	//   $this->db->join('permohonan_cuti', 'permohonan_cuti.kode_pegawai=user.kode_pegawai');
+	//   $this->db->where('user.kode_pegawai', $kode_pegawai);
+	//   $query = $this->db->get();
+	//   return $query->row_array();
+	// }
+
+	// public function cetakCutiDiluarTN($kode_pegawai)
+	// {
+	//   $this->db->select('user.*,permohonan_cuti.*');
+	//   $this->db->from('user');
+	//   $this->db->join('permohonan_cuti', 'permohonan_cuti.kode_pegawai=user.kode_pegawai');
+	//   $this->db->where('user.kode_pegawai', $kode_pegawai);
+	//   $query = $this->db->get();
+	//   return $query->row_array();
+	// }
 }
