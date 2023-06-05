@@ -74,6 +74,21 @@ class Cuti_model extends CI_Model
 			return $result1;
 		}
 	}
+
+	public function insertCuti($id, $dataPegawai, $dataCuti)
+	{
+		$this->db->trans_start();
+		$this->db->where('kode_pegawai', $id);
+		$this->db->update('user', $dataPegawai);
+		$this->db->insert('permohonan_cuti', $dataCuti);
+		$this->db->trans_complete();
+
+		if ($this->db->trans_status() == true) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
 
 /* End of file Cuti_model.php */
