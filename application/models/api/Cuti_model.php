@@ -41,7 +41,17 @@ class Cuti_model extends CI_Model
 		$this->db->select('*');
 		$this->db->from('permohonan_cuti');
 		$this->db->where('kode_pegawai', $id);
+		$this->db->order_by(' id_cuti', 'desc');
 		return $this->db->get()->result();
+	}
+
+	public function getCutiById($id)
+	{
+		$this->db->select('*');
+		$this->db->from('permohonan_cuti');
+		$this->db->where('id_cuti', $id);
+		$this->db->order_by('id_cuti', 'desc');
+		return $this->db->get()->row_array();
 	}
 
 	public function getShowCuti($id)
@@ -49,7 +59,7 @@ class Cuti_model extends CI_Model
 		$this->db->select('*');
 		$this->db->from('permohonan_cuti');
 		$this->db->where('verifikasi', 3);
-		$this->db->where(' kode_pegawai', $id);
+		$this->db->where('kode_pegawai', $id);
 		$result1 = $this->db->get()->row_array();
 
 		if ($result1 == null) {
@@ -57,7 +67,7 @@ class Cuti_model extends CI_Model
 			$this->db->from('permohonan_cuti');
 			$this->db->where('verifikasi', 1);
 			$this->db->where('status', 0);
-			$this->db->where(' kode_pegawai', $id);
+			$this->db->where('kode_pegawai', $id);
 			$result2 = $this->db->get()->row_array();
 			return $result2;
 		} else {
