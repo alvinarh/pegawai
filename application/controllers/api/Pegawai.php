@@ -215,6 +215,68 @@ class Pegawai extends CI_Controller
 		}
 	}
 
+	public function insertCutiLebih14()
+	{
+		$kodePegawai = $this->input->post('user_id');
+		$tanggalCuti = $this->input->post('tgl_cuti');
+		$tanggalSelesai = $this->input->post('tgl_selesai');
+
+		$dataUser = $this->user_model->getUserById($kodePegawai);
+		$nik = $dataUser['nik'];
+		$nama = $dataUser['nama'];
+
+		$config['upload_path']          = './assets/data/';
+		// size 5mb
+		$config['max_size']             = 5120;
+		$config['allowed_types']        = 'pdf';
+
+		$this->load->library('upload', $config);
+		if (!$this->upload->do_upload('lampiran')) {
+			$response = [
+				'status' => 404,
+				'message' => 'Format file tidak sesuai'
+			];
+			echo json_encode($response);
+		} else {
+
+			$data = array('upload_data' => $this->upload->data());
+			$file_name = $data['upload_data']['file_name'];
+
+			$dataUser = [
+				'cuti' => 2,
+				'tgl_masuk' => $tanggalSelesai
+			];
+
+			$dataCuti = [
+				'kode_pegawai' => $kodePegawai,
+				'nik' => $nik,
+				'nama' => $nama,
+				'tanggal_pengajuan' => date('Y-m-d'),
+				'mulai_cuti' => $tanggalCuti,
+				'perihal' => $this->input->post('perihal'),
+				'akhir_cuti' => $tanggalSelesai,
+				'surat_dokter' => $file_name,
+				'keterangan' => 'Cuti Sakit > 14',
+				'verifikasi' => 3,
+				'status' => 0
+			];
+
+			$trans = $this->cuti_model->insertCuti($kodePegawai, $dataUser, $dataCuti);
+			if ($trans == true) {
+				$response = [
+					'status' => 200
+				];
+				echo json_encode($response);
+			} else {
+				$response = [
+					'status' => 404,
+					'message' => 'Gagal mengajukan cuti'
+				];
+				echo json_encode($response);
+			}
+		}
+	}
+
 	public function getMyProfile()
 	{
 		$id = $this->input->get('id');
