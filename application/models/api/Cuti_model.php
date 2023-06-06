@@ -33,6 +33,7 @@ class Cuti_model extends CI_Model
 		$this->db->from('permohonan_cuti');
 		$this->db->where('kode_pegawai', $id);
 		$this->db->where('keterangan', $keterangan);
+		$this->db->order_by('id_cuti', 'desc');
 		return $this->db->get()->result();
 	}
 
