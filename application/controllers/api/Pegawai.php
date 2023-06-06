@@ -69,6 +69,63 @@ class Pegawai extends CI_Controller
 		$this->dompdfgenerator->generate($html, $file_pdf, $paper, $orientation);
 	}
 
+	public function downloadLaporanCutiSakit14($id)
+	{
+		$this->data['title_pdf']    = 'Surat Cuti Sakit > 14 Hari';
+		$query = "SELECT u.*, pc.* FROM user u, permohonan_cuti pc WHERE u.kode_pegawai=pc.kode_pegawai and pc.id_cuti='" . $id . "'";
+		$this->data['row'] = $this->db->query($query)->row_array();
+
+		// filename dari pdf ketika didownload
+		$file_pdf = 'Surat Cuti Sakit > 14 Hari';
+		// setting paper
+		$paper = 'A4';
+		//orientasi paper potrait / landscape
+		$orientation = "portrait";
+
+		$html = $this->load->view('pegawai/laporan_cuti/laporan_cutisakit14', $this->data, true);
+
+		// run dompdf
+		$this->dompdfgenerator->generate($html, $file_pdf, $paper, $orientation);
+	}
+
+	public function downloadLaporanCutiMelahirkan($id)
+	{
+		$data['title_pdf']    = 'Surat Cuti Melahirkan';
+		$query = "SELECT u.*, pc.* FROM user u, permohonan_cuti pc WHERE u.kode_pegawai=pc.kode_pegawai and pc.id_cuti='" . $id . "'";
+		$this->data['row'] = $this->db->query($query)->row_array();
+
+		// filename dari pdf ketika didownload
+		$file_pdf = 'Surat Cuti Melahirkan';
+		// setting paper
+		$paper = 'A4';
+		//orientasi paper potrait / landscape
+		$orientation = "portrait";
+
+		$html = $this->load->view('pegawai/laporan_cuti/laporan_melahirkan', $this->data, true);
+
+		// run dompdf
+		$this->dompdfgenerator->generate($html, $file_pdf, $paper, $orientation);
+	}
+
+	public function downloadLaporanCutiPenting($id)
+	{
+		$this->data['title_pdf']    = 'Surat Cuti Alasan Penting';
+		$query = "SELECT u.*, pc.* FROM user u, permohonan_cuti pc WHERE u.kode_pegawai=pc.kode_pegawai and pc.id_cuti='" . $id . "'";
+		$this->data['row'] = $this->db->query($query)->row_array();
+
+		// filename dari pdf ketika didownload
+		$file_pdf = 'Surat Cuti Alasan Penting';
+		// setting paper
+		$paper = 'A4';
+		//orientasi paper potrait / landscape
+		$orientation = "portrait";
+
+		$html = $this->load->view('pegawai/laporan_cuti/laporan_alasanpenting', $this->data, true);
+
+		// run dompdf
+		$this->dompdfgenerator->generate($html, $file_pdf, $paper, $orientation);
+	}
+
 	public function downloadSuratLampiranCutiPegawai($CutiId, $jenis)
 	{
 		if ($jenis == 'kurang') {
