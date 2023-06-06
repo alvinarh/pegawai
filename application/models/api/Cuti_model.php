@@ -26,6 +26,17 @@ class Cuti_model extends CI_Model
 		parent::__construct();
 	}
 
+	public function getCutiVerifikasi($id, $verif)
+	{
+		$this->db->select('*');
+		$this->db->from('permohonan_cuti');
+		$this->db->where('kode_pegawai', $id);
+		$this->db->where('verifikasi', $verif);
+
+		$this->db->order_by('id_cuti', 'desc');
+		return $this->db->get()->result();
+	}
+
 
 	public function getCutiByUserId($id, $keterangan)
 	{

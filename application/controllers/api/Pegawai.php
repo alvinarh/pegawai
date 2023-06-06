@@ -531,4 +531,53 @@ class Pegawai extends CI_Controller
 			}
 		}
 	}
+
+	public function getTotalCuti()
+	{
+		$userId = $this->input->get('user_id');
+		$verifikasi = $this->input->get('verifikasi');
+		echo json_encode($this->cuti_model->getCutiVerifikasi($userId, $verifikasi));
+	}
+
+	public function editPhotoProfile()
+	{
+		$userId = $this->input->post('user_id');
+
+		$config['upload_path']          = './assets/data/photo_profile/pegawai/';
+		// size 5mb
+		$config['max_size']             = 5120;
+		$config['allowed_types']        = 'png|jpg|jpeg';
+
+		$this->load->library('upload', $config);
+		if (!$this->upload->do_upload('foto')) {
+			$response = [
+				'status' => 404,
+				'message' => 'Format file tidak sesuai'
+			];
+			echo json_encode($response);
+		} else {
+
+			$data = array('upload_data' => $this->upload->data());
+			$file_name = $data['upload_data']['file_name'];
+
+			$dataUser = [
+				'foto' => $file_name,
+
+			];
+
+			$update = $this->user_model->updateUser($userId, $dataUser);
+			if ($update == true) {
+				$response = [
+					'status' => 200
+				];
+				echo json_encode($response);
+			} else {
+				$response = [
+					'status' => 404,
+					'message' => 'Gagal mengubah foto profil'
+				];
+				echo json_encode($response);
+			}
+		}
+	}
 }
