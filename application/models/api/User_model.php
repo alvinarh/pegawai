@@ -10,6 +10,7 @@ class User_model extends CI_Model
 	public function __construct()
 	{
 		parent::__construct();
+		date_default_timezone_set('Asia/Jakarta');
 	}
 	public function getUserById($id)
 	{
@@ -17,6 +18,17 @@ class User_model extends CI_Model
 		$this->db->from('user');
 		$this->db->where('kode_pegawai', $id);
 		return $this->db->get()->row_array();
+	}
+
+	public function updateUser($id, $data)
+	{
+		$this->db->where('kode_pegawai', $id);
+		$update = $this->db->update('user', $data);
+		if ($update) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
 

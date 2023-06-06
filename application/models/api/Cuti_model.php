@@ -90,6 +90,35 @@ class Cuti_model extends CI_Model
 			return false;
 		}
 	}
+
+	public function checkCutiAktif($id)
+	{
+
+		$this->db->select('*');
+		$this->db->from('permohonan_cuti');
+		$this->db->where('kode_pegawai', $id);
+		$this->db->where('verifikasi', 1);
+		$this->db->where('status', 0);
+		$data = $this->db->get()->row_array();
+		return $data;
+	}
+
+	public function konfirCutiSelesai($id, $dataCuti, $userId, $dataUser)
+	{
+		$this->db->trans_start();
+		$this->db->where('id_cuti', $id);
+		$this->db->update('permohonan_cuti', $dataCuti);
+
+		$this->db->where('kode_pegawai', $userId);
+		$this->db->update('user', $dataUser);
+		$this->db->trans_complete();
+
+		if ($this->db->trans_status() == true) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
 
 /* End of file Cuti_model.php */

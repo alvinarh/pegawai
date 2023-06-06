@@ -22,6 +22,14 @@ class Auth_model extends CI_Model
 		return $this->db->get()->row_array();
 	}
 
+	public function validateEMail($email, $field)
+	{
+		$this->db->select('*');
+		$this->db->from($field);
+		$this->db->where('email', $email);
+		return $this->db->get()->row_array();
+	}
+
 	public function auth2($email, $password, $field)
 	{
 		$this->db->select('*');

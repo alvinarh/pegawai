@@ -29,6 +29,7 @@ class Pegawai extends CI_Controller
 		$this->load->model('api/user_model');
 		$this->load->model('api/cuti_model');
 		$this->load->library('dompdfgenerator');
+		$this->load->model('api/auth_model', 'auth_model');
 	}
 
 	public function getCutiByUserId()
@@ -400,5 +401,134 @@ class Pegawai extends CI_Controller
 	{
 		$id = $this->input->get('id');
 		echo json_encode($this->user_model->getUserById($id));
+	}
+
+	public function checkCutiAktif()
+	{
+		$dateNow = date('Y-m-d');
+		$id = $this->input->get('id');
+		$data = $this->cuti_model->checkCutiAktif($id);
+		if ($data != null) {
+			if ($dateNow >= $data['akhir_cuti']) {
+				echo json_encode($data);
+			} else {
+			}
+		} else {
+		}
+	}
+
+	public function konfirmasiCutiSelesai()
+	{
+		$id  = $this->input->post('id');
+		$dataCuti = [
+			'status' => 1
+		];
+
+		$userId = $this->input->post('user_id');
+		$dataUser = [
+			'cuti' => 0
+		];
+
+		$trans = $this->cuti_model->konfirCutiSelesai($id, $dataCuti, $userId, $dataUser);
+		if ($trans == true) {
+			$response = [
+				'status' => 200
+			];
+			echo json_encode($response);
+		} else {
+			$response = [
+				'status' => 404
+			];
+			echo json_encode($response);
+		}
+	}
+
+	public function dismissNotif()
+	{
+		$id = $this->input->post('user_id');
+		$data = [
+			'status_pengajuan' => 0
+		];
+
+		$update = $this->user_model->updateUser($id, $data);
+
+		if ($update == true) {
+			$response = [
+				'status' => 200
+			];
+			echo json_encode($response);
+		} else {
+			$response = [
+				'status' => 404
+			];
+			echo json_encode($response);
+		}
+	}
+
+	public function editProfile()
+	{
+		$email = $this->input->post('email');
+		$userId = $this->input->post('user_id');
+
+		$validateEmail = $this->auth_model->validateEMail($email, 'user');
+
+		if ($validateEmail != null) {
+			if ($validateEmail['kode_pegawai'] == $userId) {
+
+				$dataProfile = [
+					'nik' => $this->input->post('nik'),
+					'nama' => $this->input->post('nama'),
+					'alamat' => $this->input->post('alamat'),
+					'no_telp' => $this->input->post('no_telp'),
+					'email' => $this->input->post('email'),
+					'password' => $this->input->post('password'),
+				];
+
+				$update = $this->user_model->updateUser($userId, $dataProfile);
+				if ($update == true) {
+					$response = [
+						'status' => 200
+					];
+					echo json_encode($response);
+				} else {
+					$response = [
+						'status' => 404,
+						'message' => 'Gagal mengubah profil'
+
+					];
+					echo json_encode($response);
+				}
+			} else {
+				$response = [
+					'status' => 404,
+					'message' => 'Email telah terdaftar'
+				];
+
+				echo json_encode($response);
+			}
+		} else {
+			$dataProfile = [
+				'nik' => $this->input->post('nik'),
+				'nama' => $this->input->post('nama'),
+				'alamat' => $this->input->post('alamat'),
+				'no_telp' => $this->input->post('no_telp'),
+				'email' => $this->input->post('email'),
+				'password' => $this->input->post('password'),
+			];
+
+			$update = $this->user_model->updateUser($userId, $dataProfile);
+			if ($update == true) {
+				$response = [
+					'status' => 200
+				];
+				echo json_encode($response);
+			} else {
+				$response = [
+					'status' => 404,
+					'message' => 'Gagal mengubah profil'
+				];
+				echo json_encode($response);
+			}
+		}
 	}
 }
