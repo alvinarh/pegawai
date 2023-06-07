@@ -169,6 +169,16 @@ class Cuti_model extends CI_Model
 			return false;
 		}
 	}
+
+
+	public function getAllTotalPengajuanCuti($keterangan)
+	{
+		$this->db->select('*');
+		$this->db->from('permohonan_cuti');
+		$this->db->where('keterangan', $keterangan);
+		$this->db->order_by('id_cuti', 'desc');
+		return $this->db->get()->result();
+	}
 }
 
 /* End of file Cuti_model.php */

@@ -30,6 +30,58 @@ class User_model extends CI_Model
 			return false;
 		}
 	}
+
+	public function getAllUser()
+	{
+		$this->db->select('*');
+		$this->db->from('user');
+		return $this->db->get()->result();
+	}
+
+	public function getPegawaiTidakPernahCuti()
+	{
+		$this->db->select('user.*');
+		$this->db->from('user');
+		$this->db->join('permohonan_cuti', 'user.kode_pegawai = permohonan_cuti.kode_pegawai', 'left');
+		$this->db->where('permohonan_cuti.kode_pegawai', null);
+		$query = $this->db->get();
+		return $query->result();
+	}
+
+	public function insertPegawai($data)
+	{
+		$insert = $this->db->insert('user', $data);
+		if ($insert) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function getIdPegawai()
+	{
+		$this->db->select('MAX(RIGHT(kode_pegawai,5)) as kode_pegawai', FALSE);
+		$this->db->from('user');
+		$this->db->where('kode_pegawai !=', 'NULL');
+		$query = $this->db->get();
+		$kode = $query->row();
+		$num = substr($kode->kode_pegawai, 1, 5);
+		$add = (int)$num + 1;
+		if (strlen($add) == 1) {
+			$kodebaru = "0000" . $add;
+		} else if (strlen($add) == 2) {
+			$kodebaru = "000" . $add;
+		} else if (strlen($add) == 3) {
+			$kodebaru = "00" . $add;
+		} else if (strlen($add) == 4) {
+			$kodebaru = "0" . $add;
+		} else {
+			$kodebaru = "" . $add;
+		}
+		$id_pegawai = 'PGW-' . date('Y') . '-' . $kodebaru;
+
+		return $id_pegawai;
+	}
 }
 
 /* End of file AuthModel_model.php */
