@@ -202,6 +202,23 @@ class Admin extends CI_Controller
 			}
 		}
 	}
+
+	public function deleteUser()
+	{
+		$userId = $this->input->post('user_id');
+		$delete = $this->user_model->deleteUser($userId);
+		if ($delete == true) {
+			$response = [
+				'status' => 200
+			];
+			echo json_encode($response);
+		} else {
+			$response = [
+				'status' => 404
+			];
+			echo json_encode($response);
+		}
+	}
 }
 
 

@@ -82,6 +82,23 @@ class User_model extends CI_Model
 
 		return $id_pegawai;
 	}
+	public function deleteUser($idUser)
+	{
+		$this->db->trans_start();
+		$this->db->where('kode_pegawai', $idUser);
+		$this->db->delete('user');
+
+		$this->db->where('kode_pegawai', $idUser);
+		$this->db->delete('permohonan_cuti');
+
+		$this->db->trans_complete();
+
+		if ($this->db->trans_status() == true) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
 
 /* End of file AuthModel_model.php */
