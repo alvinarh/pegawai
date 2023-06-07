@@ -27,6 +27,18 @@ class Pimpinan_model extends CI_Model
 		$this->db->where('kode_pimpinan', $id);
 		return $this->db->get()->row_array();
 	}
+
+	public function update($id, $data)
+	{
+		$this->db->where('kode_pimpinan', $id);
+		$update = $this->db->update('pimpinan', $data);
+
+		if ($update) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
 
 /* End of file Pimpinan_model.php */

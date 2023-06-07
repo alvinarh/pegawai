@@ -104,6 +104,111 @@ class Pimpinan extends CI_Controller
 		$userId = $this->input->get('user_id');
 		echo json_encode($this->pimpinan_model->getMyProfile($userId));
 	}
+
+	public function editPhotoProfile()
+	{
+		$userId = $this->input->post('user_id');
+
+		$config['upload_path']          = './assets/data/photo_profile/pimpinan/';
+		// size 5mb
+		$config['max_size']             = 5120;
+		$config['allowed_types']        = 'png|jpg|jpeg';
+
+		$this->load->library('upload', $config);
+		if (!$this->upload->do_upload('foto')) {
+			$response = [
+				'status' => 404,
+				'message' => 'Format file tidak sesuai'
+			];
+			echo json_encode($response);
+		} else {
+
+			$data = array('upload_data' => $this->upload->data());
+			$file_name = $data['upload_data']['file_name'];
+
+			$dataUser = [
+				'foto' => $file_name,
+
+			];
+
+			$update = $this->pimpinan_model->update($userId, $dataUser);
+			if ($update == true) {
+				$response = [
+					'status' => 200
+				];
+				echo json_encode($response);
+			} else {
+				$response = [
+					'status' => 404,
+					'message' => 'Gagal mengubah foto profil'
+				];
+				echo json_encode($response);
+			}
+		}
+	}
+
+	public function editProfile()
+	{
+		$email = $this->input->post('email');
+		$userId = $this->input->post('user_id');
+
+		$validateEmail = $this->auth_model->validateEMail($email, 'pimpinan');
+
+		if ($validateEmail != null) {
+			if ($validateEmail['kode_pimpinan'] == $userId) {
+
+				$dataProfile = [
+					'nama' => $this->input->post('nama'),
+					'no_telp' => $this->input->post('no_telp'),
+					'email' => $this->input->post('email'),
+					'password' => $this->input->post('password'),
+				];
+
+				$update = $this->pimpinan_model->update($userId, $dataProfile);
+				if ($update == true) {
+					$response = [
+						'status' => 200
+					];
+					echo json_encode($response);
+				} else {
+					$response = [
+						'status' => 404,
+						'message' => 'Gagal mengubah profil'
+
+					];
+					echo json_encode($response);
+				}
+			} else {
+				$response = [
+					'status' => 404,
+					'message' => 'Email telah terdaftar'
+				];
+
+				echo json_encode($response);
+			}
+		} else {
+			$dataProfile = [
+				'nama' => $this->input->post('nama'),
+				'no_telp' => $this->input->post('no_telp'),
+				'email' => $this->input->post('email'),
+				'password' => $this->input->post('password'),
+			];
+
+			$update = $this->pimpinan_model->update($userId, $dataProfile);
+			if ($update == true) {
+				$response = [
+					'status' => 200
+				];
+				echo json_encode($response);
+			} else {
+				$response = [
+					'status' => 404,
+					'message' => 'Gagal mengubah profil'
+				];
+				echo json_encode($response);
+			}
+		}
+	}
 }
 
 
