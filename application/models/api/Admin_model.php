@@ -33,6 +33,17 @@ class Admin_model extends CI_Model
 		$this->db->where('id_admin', $id);
 		return $this->db->get()->row_array();
 	}
+
+	public function edit($id, $data)
+	{
+		$this->db->where('id_admin', $id);
+		$update = $this->db->update('admin', $data);
+		if ($update) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
 
 /* End of file Admin_model.php */

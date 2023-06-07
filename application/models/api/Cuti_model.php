@@ -179,6 +179,25 @@ class Cuti_model extends CI_Model
 		$this->db->order_by('id_cuti', 'desc');
 		return $this->db->get()->result();
 	}
+
+	public function getAllPengajuanCutiAdminKeterangan($keterangan)
+	{
+		$this->db->select('*');
+		$this->db->from('permohonan_cuti');
+		$this->db->where('keterangan', $keterangan);
+		$this->db->order_by('id_cuti', 'desc');
+		return $this->db->get()->result();
+	}
+
+	public function getAllPengajuanCutiAdminSelesai($keterangan)
+	{
+		$this->db->select('*');
+		$this->db->from('permohonan_cuti');
+		$this->db->where('keterangan', $keterangan);
+		$this->db->where('status', 1);
+		$this->db->order_by('id_cuti', 'desc');
+		return $this->db->get()->result();
+	}
 }
 
 /* End of file Cuti_model.php */
