@@ -580,4 +580,13 @@ class Pegawai extends CI_Controller
 			}
 		}
 	}
+
+	function checkTotalCuti()
+	{
+		$kodePegawai = $this->input->get('kode_pegawai');
+		$data = [
+			'message' => $this->cuti_model->checkTotalCuti($kodePegawai)
+		];
+		echo json_encode($data);
+	}
 }

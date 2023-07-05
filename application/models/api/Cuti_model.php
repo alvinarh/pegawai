@@ -24,6 +24,7 @@ class Cuti_model extends CI_Model
 	public function __construct()
 	{
 		parent::__construct();
+		date_default_timezone_set('Asia/Jakarta');
 	}
 
 	public function getCutiVerifikasi($id, $verif)
@@ -197,6 +198,17 @@ class Cuti_model extends CI_Model
 		$this->db->where('status', 1);
 		$this->db->order_by('id_cuti', 'desc');
 		return $this->db->get()->result();
+	}
+
+	function checkTotalCuti($kodePegawai)
+	{
+		$yearNow = date('Y');
+		$this->db->select('id_cuti');
+		$this->db->from('permohonan_cuti');
+		$this->db->where('kode_pegawai', $kodePegawai);
+		$this->db->where('YEAR(tanggal_pengajuan)', $yearNow, false);
+		$this->db->where('verifikasi', 1);
+		return $this->db->get()->num_rows();
 	}
 }
 
