@@ -35,6 +35,7 @@ class User_model extends CI_Model
 	{
 		$this->db->select('*');
 		$this->db->from('user');
+		$this->db->order_by('kode_pegawai', 'desc');
 		return $this->db->get()->result();
 	}
 
@@ -44,6 +45,7 @@ class User_model extends CI_Model
 		$this->db->from('user');
 		$this->db->join('permohonan_cuti', 'user.kode_pegawai = permohonan_cuti.kode_pegawai', 'left');
 		$this->db->where('permohonan_cuti.kode_pegawai', null);
+		$this->db->order_by('kode_pegawai', 'desc');
 		$query = $this->db->get();
 		return $query->result();
 	}
