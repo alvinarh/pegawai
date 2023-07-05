@@ -120,7 +120,6 @@ class Cuti_model extends CI_Model
 		$this->db->trans_start();
 		$this->db->where('id_cuti', $id);
 		$this->db->update('permohonan_cuti', $dataCuti);
-
 		$this->db->where('kode_pegawai', $userId);
 		$this->db->update('user', $dataUser);
 		$this->db->trans_complete();
@@ -138,7 +137,6 @@ class Cuti_model extends CI_Model
 		$this->db->from('permohonan_cuti');
 		$this->db->where('verifikasi', 3);
 		$this->db->order_by('id_cuti', 'desc');
-
 		return $this->db->get()->result();
 	}
 
@@ -149,6 +147,7 @@ class Cuti_model extends CI_Model
 		$this->db->from('permohonan_cuti');
 		$this->db->where('verifikasi !=', 3);
 		$this->db->where('keterangan', $keterangan);
+		$this->db->order_by('id_cuti', 'desc');
 		$this->db->order_by('id_cuti', 'desc');
 
 		return $this->db->get()->result();
@@ -208,6 +207,7 @@ class Cuti_model extends CI_Model
 		$this->db->where('kode_pegawai', $kodePegawai);
 		$this->db->where('YEAR(tanggal_pengajuan)', $yearNow, false);
 		$this->db->where('verifikasi', 1);
+		$this->db->order_by('id_cuti', 'desc');
 		return $this->db->get()->num_rows();
 	}
 }
