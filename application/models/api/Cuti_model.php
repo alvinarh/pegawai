@@ -210,6 +210,19 @@ class Cuti_model extends CI_Model
 		$this->db->order_by('id_cuti', 'desc');
 		return $this->db->get()->num_rows();
 	}
+
+	function checkTotalCutiMelahirkan($kodePegawai)
+	{
+		$yearNow = date('Y');
+		$this->db->select('id_cuti');
+		$this->db->from('permohonan_cuti');
+		$this->db->where('kode_pegawai', $kodePegawai);
+		$this->db->where('YEAR(tanggal_pengajuan)', $yearNow, false);
+		$this->db->where('verifikasi', 1);
+		$this->db->where('keterangan', 'Cuti Melahirkan');
+		$this->db->order_by('id_cuti', 'desc');
+		return $this->db->get()->num_rows();
+	}
 }
 
 /* End of file Cuti_model.php */
